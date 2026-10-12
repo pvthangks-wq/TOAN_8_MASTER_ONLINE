@@ -1,0 +1,23 @@
+# Render Blueprint: paid web instance with durable SQLite data storage.
+# Deploy from a private GitHub repository. Visit /setup after deployment.
+services:
+  - type: web
+    name: toan8-master-online
+    runtime: docker
+    plan: 0.5c-512mb
+    region: singapore
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    envVars:
+      - key: PORT
+        value: '10000'
+      - key: DB_PATH
+        value: /app/instance/toan8.db
+      - key: COOKIE_SECURE
+        value: '1'
+      - key: BOOTSTRAP_TOKEN
+        generateValue: true
+    disk:
+      name: toan8-master-data
+      mountPath: /app/instance
+      sizeGB: 1
